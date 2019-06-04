@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.nio.cs.ext.SJIS;
 
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,15 +24,24 @@ public class SpringDataJdbcTest {
 
     @Test
     public void countAll() {
-        System.out.println("Counting all");
-        System.out.println(jdbcUserRepository.countAll());
-        assert jdbcUserRepository.countAll() == 2;
+        System.out.println("User count = " + jdbcUserRepository.countAll());
+        assert true;
     }
 
     @Test
     public void findAll() {
-        Iterable<SdjUser> users = jdbcUserRepository.findAll();
-        users.forEach(e-> System.out.println(e));
+        Iterable<SdjUser> users = jdbcUserRepository.getAllUsers();
+        users.forEach(e -> System.out.println(e));
+        assert true;
+    }
+
+    @Test
+    public void updateTime() {
+        SdjUser user = jdbcUserRepository.findById(1L).get();
+        System.out.println("Before: " + user);
+        jdbcUserRepository.updateTimeById(user.getId());
+        user = jdbcUserRepository.findById(1L).get();
+        System.out.println("After" + user);
         assert true;
     }
 }
